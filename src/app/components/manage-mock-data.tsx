@@ -149,8 +149,6 @@ export function ManageMockData() {
           {editingItem ? 'Update Mock Data' : 'Save Mock Data'}
         </Button>
       </div>
-
-      
     </div>
   );
 }

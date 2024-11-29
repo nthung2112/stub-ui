@@ -1,35 +1,33 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Switch } from "@/components/ui/switch"
-import { Label } from "@/components/ui/label"
-import { toast } from "@/hooks/use-toast"
+import { useState } from 'react';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { toast } from '@/hooks/use-toast';
 
 interface FeatureFlag {
-  id: string
-  name: string
-  enabled: boolean
+  id: string;
+  name: string;
+  enabled: boolean;
 }
 
 export function FeatureFlags() {
   const [flags, setFlags] = useState<FeatureFlag[]>([
-    { id: "1", name: "New UI", enabled: false },
-    { id: "2", name: "Beta Feature", enabled: true },
-    { id: "3", name: "Experimental API", enabled: false },
-  ])
+    { id: '1', name: 'New UI', enabled: false },
+    { id: '2', name: 'Beta Feature', enabled: true },
+    { id: '3', name: 'Experimental API', enabled: false },
+  ]);
 
   const handleToggle = (id: string) => {
-    setFlags(flags.map(flag => 
-      flag.id === id ? { ...flag, enabled: !flag.enabled } : flag
-    ))
-    const flag = flags.find(f => f.id === id)
+    setFlags(flags.map((flag) => (flag.id === id ? { ...flag, enabled: !flag.enabled } : flag)));
+    const flag = flags.find((f) => f.id === id);
     if (flag) {
       toast({
-        title: "Feature Flag Updated",
+        title: 'Feature Flag Updated',
         description: `${flag.name} is now ${!flag.enabled ? 'enabled' : 'disabled'}`,
-      })
+      });
     }
-  }
+  };
 
   return (
     <div className="space-y-4">
@@ -45,6 +43,5 @@ export function FeatureFlags() {
         </div>
       ))}
     </div>
-  )
+  );
 }
-

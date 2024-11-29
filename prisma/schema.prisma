@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model generic_stub_config {
+  uri                   String                  @db.VarChar(255)
+  service_name          String                  @db.VarChar(125)
+  http_status           Int
+  response              Json
+  http_method           httpmethodenum          @default(GET)
+  query_param_data      Json                    @default("{}")
+  lookup_path           String?                 @db.VarChar(300)
+  lookup_id             String                  @default("") @db.VarChar(255)
+  id                    BigInt                  @id @default(autoincrement())
+  created_time          DateTime?               @db.Timestamp(6)
+  updated_time          DateTime?               @db.Timestamp(6)
+  generic_stub_response generic_stub_response[]
+
+  @@unique([uri, service_name, http_method, query_param_data, lookup_id], map: "generic_stub_config_unique_key")
+}
+
+model generic_stub_response {
+  id                  BigInt              @id @default(autoincrement())
+  stub_config_id      BigInt              @default(autoincrement())
+  ordered             Int                 @default(0)
+  http_status         Int
+  response            Json
+  returned_times      Int?
+  executed_times      Int?
+  created_time        DateTime?           @db.Timestamp(6)
+  updated_time        DateTime?           @db.Timestamp(6)
+  generic_stub_config generic_stub_config @relation(fields: [stub_config_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_stub_config_id")
+}
+
+enum httpmethodenum {
+  POST
+  PUT
+  GET
+  PATCH
+  DELETE
+}
