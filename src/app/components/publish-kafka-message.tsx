@@ -8,15 +8,15 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
 
 export function PublishKafkaMessage() {
-  const [schemaId, setSchemaId] = useState('');
+  const [schemaTopic, setSchemaTopic] = useState('');
   const [message, setMessage] = useState('');
 
   const handlePublish = () => {
     // Here you would typically send this data to your Kafka broker
-    console.log('Publishing Kafka message:', { schemaId, message });
+    console.log('Publishing Kafka message:', { schemaTopic, message });
     toast({
       title: 'Kafka Message Published',
-      description: `Message published with schema ID: ${schemaId}`,
+      description: `Message published with schema ID: ${schemaTopic}`,
     });
   };
 
@@ -24,12 +24,12 @@ export function PublishKafkaMessage() {
     <div className="space-y-4">
       <h2 className="text-2xl font-bold">Publish Kafka Message</h2>
       <div className="space-y-2">
-        <Label htmlFor="schema-id">Schema ID</Label>
+        <Label htmlFor="schema-topic">Schema Topic</Label>
         <Input
-          id="schema-id"
-          value={schemaId}
-          onChange={(e) => setSchemaId(e.target.value)}
-          placeholder="Enter the schema ID"
+          id="schema-topic"
+          value={schemaTopic}
+          onChange={(e) => setSchemaTopic(e.target.value)}
+          placeholder="Select a Topic"
         />
       </div>
       <div className="space-y-2">

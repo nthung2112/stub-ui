@@ -84,12 +84,11 @@ export function ManageMockData() {
       <h2 className="text-2xl font-bold">Manage Mock Data</h2>
 
       <div className="space-y-4">
-        <h3 className="text-xl font-semibold">Existing Mock Data</h3>
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead>Key</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead>Data</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
