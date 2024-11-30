@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ManageMockData } from './components/manage-mock-data';
 import { FeatureFlags } from './components/feature-flags';
 import { PublishKafkaMessage } from './components/publish-kafka-message';
+import { BucketList } from './components/bucket-list';
 
 export default function DashboardPage() {
   return (
@@ -23,7 +24,9 @@ export default function DashboardPage() {
         <TabsContent value="feature-flags">
           <FeatureFlags />
         </TabsContent>
-        <TabsContent value="s3-bucket">s3 bucket</TabsContent>
+        <TabsContent value="s3-bucket">
+          <BucketList />
+        </TabsContent>
       </Tabs>
     </div>
   );
