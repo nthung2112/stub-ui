@@ -37,10 +37,10 @@ export function DashboardSidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="flex flex-row items-center p-2 relative pb-1">
-        <h2 className="text-lg font-semibold p-2">
+      <SidebarHeader className="flex flex-row items-center p-2 relative">
+        <div className="text-lg font-semibold px-2">
           <Link href="/">DB</Link>
-        </h2>
+        </div>
         <div className="flex-1" />
         {open && <SidebarTrigger />}
       </SidebarHeader>

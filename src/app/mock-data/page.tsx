@@ -21,6 +21,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { MainLayout } from '@/components/main-layout';
 
 interface MockDataItem {
   id: string;
@@ -80,49 +81,45 @@ export default function Page() {
   };
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold">Manage Mock Data</h2>
-
-      <div className="space-y-4">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Key</TableHead>
-              <TableHead>Data</TableHead>
+    <MainLayout title="Manage Mock Data">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Key</TableHead>
+            <TableHead>Data</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {mockDataItems.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell>{item.key}</TableCell>
+              <TableCell>
+                <div className="space-x-2">
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="outline">View</Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>{item.key}</DialogTitle>
+                      </DialogHeader>
+                      <pre className="mt-4 whitespace-pre-wrap bg-muted p-4 rounded-md">
+                        {item.data}
+                      </pre>
+                    </DialogContent>
+                  </Dialog>
+                  <Button variant="outline" onClick={() => editItem(item)}>
+                    Edit
+                  </Button>
+                  <Button variant="destructive" onClick={() => deleteItem(item.id)}>
+                    Delete
+                  </Button>
+                </div>
+              </TableCell>
             </TableRow>
-          </TableHeader>
-          <TableBody>
-            {mockDataItems.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.key}</TableCell>
-                <TableCell>
-                  <div className="space-x-2">
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button variant="outline">View</Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>{item.key}</DialogTitle>
-                        </DialogHeader>
-                        <pre className="mt-4 whitespace-pre-wrap bg-muted p-4 rounded-md">
-                          {item.data}
-                        </pre>
-                      </DialogContent>
-                    </Dialog>
-                    <Button variant="outline" onClick={() => editItem(item)}>
-                      Edit
-                    </Button>
-                    <Button variant="destructive" onClick={() => deleteItem(item.id)}>
-                      Delete
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+          ))}
+        </TableBody>
+      </Table>
 
       <div className="space-y-4">
         <div className="space-y-2">
@@ -148,6 +145,6 @@ export default function Page() {
           {editingItem ? 'Update Mock Data' : 'Save Mock Data'}
         </Button>
       </div>
-    </div>
+    </MainLayout>
   );
 }

@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
+import { MainLayout } from '@/components/main-layout';
 
 export default function Page() {
   const [schemaTopic, setSchemaTopic] = useState('');
@@ -21,8 +22,7 @@ export default function Page() {
   };
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-2xl font-bold">Publish Kafka Message</h2>
+    <MainLayout title="Publish Kafka Message">
       <div className="space-y-2">
         <Label htmlFor="schema-topic">Schema Topic</Label>
         <Input
@@ -43,6 +43,6 @@ export default function Page() {
         />
       </div>
       <Button onClick={handlePublish}>Publish Message</Button>
-    </div>
+    </MainLayout>
   );
 }

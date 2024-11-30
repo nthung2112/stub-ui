@@ -9,6 +9,9 @@ import {
 } from '@/services/bucket-service';
 import { PencilIcon, TrashIcon, PlusIcon } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { MainLayout } from '@/components/main-layout';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 interface Bucket {
   Name?: string;
@@ -93,26 +96,21 @@ export default function Page() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">S3 Bucket Manager</h1>
-
+    <MainLayout title="S3 Bucket Manager">
       {/* Create Bucket Form */}
       <form onSubmit={handleCreateBucket} className="mb-6">
         <div className="flex gap-2">
-          <input
+          <Input
             type="text"
             value={newBucketName}
             onChange={(e) => setNewBucketName(e.target.value)}
             placeholder="New bucket name"
-            className="flex-1 p-2 border rounded"
           />
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded flex items-center gap-2"
+          <Button
           >
             <PlusIcon className="h-5 w-5" />
             Create Bucket
-          </button>
+          </Button>
         </div>
       </form>
 
@@ -180,6 +178,6 @@ export default function Page() {
           </tbody>
         </table>
       </div>
-    </div>
+    </MainLayout>
   );
 }

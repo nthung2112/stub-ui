@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/hooks/use-toast';
+import { MainLayout } from '@/components/main-layout';
 
 interface FeatureFlag {
   id: string;
@@ -30,8 +31,7 @@ export default function Page() {
   };
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-2xl font-bold">Feature Flags</h2>
+    <MainLayout title="Feature Flags">
       {flags.map((flag) => (
         <div key={flag.id} className="flex items-center justify-between">
           <Label htmlFor={`flag-${flag.id}`}>{flag.name}</Label>
@@ -42,6 +42,6 @@ export default function Page() {
           />
         </div>
       ))}
-    </div>
+    </MainLayout>
   );
 }

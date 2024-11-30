@@ -2,7 +2,6 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
 import { Inter } from 'next/font/google';
-import { Dashboard } from '@/components/dashboard';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,7 +19,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <div className="min-h-screen bg-background">
-          <Dashboard>{children}</Dashboard>
+          {children}
           <Toaster />
         </div>
       </body>
