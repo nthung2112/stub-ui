@@ -15,7 +15,7 @@ interface Bucket {
   CreationDate?: Date;
 }
 
-export const BucketList: React.FC = () => {
+export default function Page() {
   const [buckets, setBuckets] = useState<Bucket[]>([]);
   const [newBucketName, setNewBucketName] = useState('');
   const [editingBucket, setEditingBucket] = useState<string | null>(null);
@@ -182,4 +182,4 @@ export const BucketList: React.FC = () => {
       </div>
     </div>
   );
-};
+}

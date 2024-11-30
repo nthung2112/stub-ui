@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
 
-export function PublishKafkaMessage() {
+export default function Page() {
   const [schemaTopic, setSchemaTopic] = useState('');
   const [message, setMessage] = useState('');
 

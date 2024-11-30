@@ -11,7 +11,7 @@ interface FeatureFlag {
   enabled: boolean;
 }
 
-export function FeatureFlags() {
+export default function Page() {
   const [flags, setFlags] = useState<FeatureFlag[]>([
     { id: '1', name: 'New UI', enabled: false },
     { id: '2', name: 'Beta Feature', enabled: true },

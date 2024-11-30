@@ -28,7 +28,7 @@ interface MockDataItem {
   data: string;
 }
 
-export function ManageMockData() {
+export default function Page() {
   const [mockDataItems, setMockDataItems] = useState<MockDataItem[]>([]);
   const [dataKey, setDataKey] = useState('');
   const [mockData, setMockData] = useState('');
