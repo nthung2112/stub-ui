@@ -4,7 +4,7 @@ import { Header } from './header';
 
 interface DashboardProps {
   children: React.ReactNode;
-  title: string;
+  title: React.ReactNode;
 }
 
 export function MainLayout({ children, title }: DashboardProps) {

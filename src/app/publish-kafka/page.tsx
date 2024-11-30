@@ -23,26 +23,28 @@ export default function Page() {
 
   return (
     <MainLayout title="Publish Kafka Message">
-      <div className="space-y-2">
-        <Label htmlFor="schema-topic">Schema Topic</Label>
-        <Input
-          id="schema-topic"
-          value={schemaTopic}
-          onChange={(e) => setSchemaTopic(e.target.value)}
-          placeholder="Select a Topic"
-        />
+      <div className="flex flex-col gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="schema-topic">Schema Topic</Label>
+          <Input
+            id="schema-topic"
+            value={schemaTopic}
+            onChange={(e) => setSchemaTopic(e.target.value)}
+            placeholder="Select a Topic"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="kafka-message">Message (JSON)</Label>
+          <Textarea
+            id="kafka-message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Enter your Kafka message in JSON format"
+            rows={10}
+          />
+        </div>
+        <Button onClick={handlePublish}>Publish Message</Button>
       </div>
-      <div className="space-y-2">
-        <Label htmlFor="kafka-message">Message (JSON)</Label>
-        <Textarea
-          id="kafka-message"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Enter your Kafka message in JSON format"
-          rows={10}
-        />
-      </div>
-      <Button onClick={handlePublish}>Publish Message</Button>
     </MainLayout>
   );
 }

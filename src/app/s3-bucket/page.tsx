@@ -1,183 +1,52 @@
-'use client';
+import Link from 'next/link';
 
-import React, { useEffect, useState } from 'react';
-import {
-  listBuckets,
-  createBucket,
-  deleteBucket,
-  updateBucketTags,
-} from '@/services/bucket-service';
-import { PencilIcon, TrashIcon, PlusIcon } from 'lucide-react';
-import { toast } from '@/hooks/use-toast';
 import { MainLayout } from '@/components/main-layout';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { listBuckets } from '@/services/bucket-service';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
-interface Bucket {
-  Name?: string;
-  CreationDate?: Date;
-}
+import { BucketProvider } from './bucket-context';
+import { BucketDeleteButton } from './bucket-delete-button';
+import { AddBucketForm } from './add-bucket-form';
 
-export default function Page() {
-  const [buckets, setBuckets] = useState<Bucket[]>([]);
-  const [newBucketName, setNewBucketName] = useState('');
-  const [editingBucket, setEditingBucket] = useState<string | null>(null);
-  const [tags, setTags] = useState<{ [key: string]: string }>({});
-
-  const fetchBuckets = async () => {
-    try {
-      const data = await listBuckets();
-      setBuckets(data);
-    } catch (error) {
-      console.error('Failed to fetch buckets', error);
-      toast({
-        title: 'Error',
-        description: `Failed to fetch buckets`,
-      });
-    }
-  };
-
-  useEffect(() => {
-    fetchBuckets();
-  }, []);
-
-  const handleCreateBucket = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      await createBucket(newBucketName);
-      toast({
-        title: 'Success',
-        description: `Bucket created successfully`,
-      });
-      setNewBucketName('');
-      fetchBuckets();
-    } catch (error) {
-      console.error('Failed to create bucket', error);
-      toast({
-        title: 'Error',
-        description: `Failed to create bucket`,
-      });
-    }
-  };
-
-  const handleDeleteBucket = async (bucketName: string) => {
-    try {
-      await deleteBucket(bucketName);
-      toast({
-        title: 'Success',
-        description: `Bucket deleted successfully`,
-      });
-      fetchBuckets();
-    } catch (error) {
-      console.error('Failed to delete bucket', error);
-      toast({
-        title: 'Error',
-        description: `Failed to delete bucket`,
-      });
-    }
-  };
-
-  const handleUpdateTags = async (bucketName: string) => {
-    try {
-      await updateBucketTags(bucketName, tags);
-      toast({
-        title: 'Success',
-        description: `Tags updated successfully`,
-      });
-      setEditingBucket(null);
-      setTags({});
-    } catch (error) {
-      console.error('Failed to update tags', error);
-      toast({
-        title: 'Error',
-        description: `Failed to update tags`,
-      });
-    }
-  };
+export default async function Page() {
+  const buckets = await listBuckets();
 
   return (
     <MainLayout title="S3 Bucket Manager">
-      {/* Create Bucket Form */}
-      <form onSubmit={handleCreateBucket} className="mb-6">
-        <div className="flex gap-2">
-          <Input
-            type="text"
-            value={newBucketName}
-            onChange={(e) => setNewBucketName(e.target.value)}
-            placeholder="New bucket name"
-          />
-          <Button
-          >
-            <PlusIcon className="h-5 w-5" />
-            Create Bucket
-          </Button>
-        </div>
-      </form>
-
-      {/* Bucket List */}
-      <div className="bg-white shadow-md rounded-lg overflow-hidden">
-        <table className="min-w-full">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Bucket Name
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Creation Date
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+      <BucketProvider>
+        <AddBucketForm />
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Bucket Name</TableHead>
+              <TableHead>Creation Date</TableHead>
+              <TableHead>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {buckets.map((bucket) => (
-              <tr key={bucket.Name}>
-                <td className="px-6 py-4 whitespace-nowrap">{bucket.Name}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {bucket.CreationDate?.toLocaleDateString()}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+              <TableRow key={bucket.Name}>
+                <TableCell>
+                  <Link href={`/s3-bucket/${bucket.Name}`}>{bucket.Name}</Link>
+                </TableCell>
+                <TableCell>{bucket.CreationDate?.toLocaleDateString()}</TableCell>
+                <TableCell>
                   <div className="flex gap-2">
-                    {editingBucket === bucket.Name ? (
-                      <div className="flex gap-2">
-                        <input
-                          type="text"
-                          placeholder="tag-key=tag-value"
-                          className="border rounded px-2"
-                          onChange={(e) => {
-                            const [key, value] = e.target.value.split('=');
-                            setTags({ ...tags, [key]: value });
-                          }}
-                        />
-                        <button
-                          onClick={() => handleUpdateTags(bucket.Name!)}
-                          className="text-green-600 hover:text-green-900"
-                        >
-                          Save
-                        </button>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => setEditingBucket(bucket.Name!)}
-                        className="text-blue-600 hover:text-blue-900"
-                      >
-                        <PencilIcon className="h-5 w-5" />
-                      </button>
-                    )}
-                    <button
-                      onClick={() => handleDeleteBucket(bucket.Name!)}
-                      className="text-red-600 hover:text-red-900"
-                    >
-                      <TrashIcon className="h-5 w-5" />
-                    </button>
+                    <BucketDeleteButton bucket={bucket} />
                   </div>
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
-      </div>
+          </TableBody>
+        </Table>
+      </BucketProvider>
     </MainLayout>
   );
 }
