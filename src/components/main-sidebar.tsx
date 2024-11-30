@@ -7,13 +7,16 @@ import { usePathname } from 'next/navigation';
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
   SidebarTrigger,
+  useSidebar,
 } from '@/components/ui/sidebar';
+import { NavUser } from './nav-user';
 
 const menuItems = [
   { icon: BarChart3, label: 'Mock Data', href: '/mock-data' },
@@ -22,18 +25,25 @@ const menuItems = [
   { icon: HardDrive, label: 'S3 Bucket', href: '/s3-bucket' },
 ];
 
+const user = {
+  name: "Admin",
+  email: "m@example.com",
+  avatar: "/avatars/shadcn.jpg",
+}
+
 export function DashboardSidebar() {
   const pathname = usePathname();
+  const { open } = useSidebar()
 
   return (
-    <Sidebar>
-      <SidebarHeader>
-        <h2 className="text-lg font-semibold">Dashboard</h2>
+    <Sidebar collapsible="icon">
+      <SidebarHeader className='flex flex-row items-center p-2 relative pb-1'>
+        <h2 className="text-lg font-semibold p-2">DB</h2>
         <div className="flex-1" />
-        <SidebarTrigger />
+        {open && <SidebarTrigger />}
       </SidebarHeader>
       <SidebarContent>
-        <SidebarMenu>
+        <SidebarMenu className='p-2'>
           {menuItems.map((item) => (
             <SidebarMenuItem key={item.href}>
               <SidebarMenuButton asChild isActive={pathname === item.href}>
@@ -46,6 +56,9 @@ export function DashboardSidebar() {
           ))}
         </SidebarMenu>
       </SidebarContent>
+      <SidebarFooter>
+        <NavUser user={user} />
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );

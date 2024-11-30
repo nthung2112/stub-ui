@@ -1,6 +1,11 @@
-import { Header } from '@/components/header';
-import { DashboardSidebar } from '@/components/sidebar';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+} from '@/components/ui/breadcrumb';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import { DashboardSidebar } from './main-sidebar';
 
 interface DashboardProps {
   children: React.ReactNode;
@@ -9,13 +14,19 @@ interface DashboardProps {
 export function Dashboard({ children }: DashboardProps) {
   return (
     <SidebarProvider>
-      <div className="flex h-screen">
-        <DashboardSidebar />
-        <SidebarInset className="flex flex-col">\
-          <Header />
-          <main className="flex-1 overflow-y-auto p-4">{children}</main>
-        </SidebarInset>
-      </div>
+      <DashboardSidebar />
+      <SidebarInset>
+        <header className="flex h-12 shrink-0 items-center gap-2 border-b px-4">
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbLink href="#">Building Your Application</BreadcrumbLink>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </header>
+        <main className="p-4">{children}</main>
+      </SidebarInset>
     </SidebarProvider>
   );
 }
